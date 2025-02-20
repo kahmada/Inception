@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    container_name: kahmada
+    ports:
+      - "3000:3000"
+ 
+    
