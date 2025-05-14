@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y \
     nginx \
@@ -15,7 +15,5 @@ RUN chmod +x /usr/local/bin/ssl-setup.sh
 
 # Run SSL setup (ensure this does not run multiple times unnecessarily)
 RUN /usr/local/bin/ssl-setup.sh
-
-EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,90 @@
+services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    image: mariadb:kahmada
+    container_name: mariadb
+    hostname: mariadb
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - data_vol:/var/lib/mysql
+    networks:
+      - inception_network
+
+
+  nginx:
+    build:
+      context: ./requirements/nginx/
+      dockerfile: Dockerfile
+    image: nginx:kahmada
+    container_name: nginx
+    hostname: nginx
+    restart: always
+    depends_on:
+    - wordpress
+    ports:
+      - 443:443
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html  # Utilisation d'un volume Docker géré automatiquement
+    networks:
+      - inception_network
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress/
+      dockerfile: Dockerfile
+    image: wordpress:kahmada
+    container_name: wordpress
+    hostname: wordpress
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception_network
+    depends_on:
+      - mariadb
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - inception_network
+    depends_on:
+      - mariadb
+  static_site:
+    build: ./requirements/bonus/static_site
+    container_name: static_site
+    ports:
+      - "8081:80"
+    restart: always
+    networks:
+      - inception_network
+  redis:
+    container_name: redis
+    build:
+      context: ./requirements/bonus/redis
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    networks:
+      - inception_network
+    restart: always
+
+volumes:
+  data_vol:  # Docker va créer et gérer ce volume automatiquement
+  wordpress_vol:  # Docker va créer et gérer ce volume automatiquement
+
+networks:
+  inception_network:
+    name: "inception_network"
+    driver: bridge

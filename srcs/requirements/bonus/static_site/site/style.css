@@ -1,0 +1,247 @@
+:root {
+    --primary-color: #fca40b;
+    --secondary-color: #4d9fc8;
+    --lightcolor: #ece751;
+    --bgcolor-1: hwb(214 5% 86%);
+    --bgcolor-2: hwb(214 5% 86%);
+    --padding: 8%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    color: var(--lightcolor);
+    background-color: var(--bgcolor-2);
+}
+
+h1, h2, h3, h4 {
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+}
+
+.home {
+    width: 100%;
+    height: 70vh;
+    background-color: var(--bgcolor-1);
+    display: flex;
+    flex-direction: column;
+}
+
+span {
+    color: rgb(255, 255, 255);
+}
+
+nav {
+    padding-top: 2.8rem;
+    padding-left: var(--padding);
+    padding-right: var(--padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin: 0.8rem 1.5rem;
+    margin-top: 2.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--lightcolor);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+nav ul li a:hover {
+    color: rgb(250, 250, 250);
+}
+
+.btn {
+    padding: 0.5rem 1.5rem;
+    background-color: rgb(239, 16, 16);
+    text-decoration: none;
+    color: var(--lightcolor);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: red;
+    rotate: 10deg;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 0 var(--padding);
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    flex-grow: 1;
+    padding: 0 var(--padding);
+    align-items: center;
+    position: relative;
+    bottom: 70px;
+}
+
+.social {
+    margin-top: 3.5rem;
+}
+
+.social img {
+    margin-right: 2rem;
+    width: 2.5rem;
+    transition: 0.4s;
+}
+
+.social img:hover {
+    transform: scale(1.3);
+}
+
+.conimg {
+    flex-shrink: 0;
+}
+
+.mypic {
+    border-radius: 20%;
+    width: 500px;
+    height: 400px;
+}
+
+.services, .skills, .contact , .about {
+    margin-top: 50px;
+    justify-content: center;
+    padding: 2rem var(--padding);
+    background-color: var(--bgcolor-2);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(251, 252, 254);
+    font-size: 1.1rem;
+}
+
+.services h3 {
+    margin-bottom: 1rem; /* Reduced space between h3 and p */
+    color: hwb(0 100% 0%);
+}
+
+.services p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.1rem;
+    margin-top: 1rem; /* Reduced space between h3 and p */
+    color: hwb(0 100% 0%);
+}
+
+.about h2, .services h2, .skills h2, .contact h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: hwb(0 100% 0%);
+}
+.about p, .about p .services p, .skills ul, .contact form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.skills ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+}
+
+.skills ul li {
+    background-color: var(--primary-color);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact form label {
+    margin: 0.5rem 0;
+}
+
+.contact form input, .contact form textarea {
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 8px;
+}
+
+.contact form button {
+    align-self: flex-start;
+    padding: 0.5rem 1.5rem;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.contact form button:hover {
+    background-color: red;
+    rotate: 10deg;
+}
+.contact .btnu{
+    padding: 0.5rem 1.5rem;
+    background-color: #fca40b;
+    text-decoration: none;
+    color: var(--lightcolor);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.about .anim {
+    margin-top: 0.5rem;
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+.pp{
+    margin-top: 1rem;
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+    padding: 2rem var(--padding);
+    background-color: #fca40b;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(33, 35, 38);
+    font-size: 1.1rem;
+}
