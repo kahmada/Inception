@@ -53,3 +53,17 @@ J’ai aussi fait attention à la sécurité : les mots de passe sont passés vi
 🧠 Conclusion
 Ce projet m’a appris à construire une infrastructure web réelle, avec des concepts professionnels comme les conteneurs, les reverse proxies, les certificats SSL, et la persistance des données.
 J’ai non seulement fait fonctionner un site WordPress, mais je l’ai aussi rendu isolé, sécurisé, automatisé et modulaire, comme cela se fait dans les environnements de production.
+
+
+
+
+
+
+| Clé                                             | Description                                                      |
+| ----------------------------------------------- | ---------------------------------------------------------------- |
+| `user` / `group`                                | Utilisateur UNIX qui exécute PHP                                 |
+| `listen`                                        | Port ou socket utilisé pour la communication avec le serveur web |
+| `pm`                                            | Mode de gestion dynamique des processus                          |
+| `pm.max_children`                               | Capacité maximale du pool PHP                                    |
+| `pm.start_servers`                              | Combien de processus sont lancés au début                        |
+| `pm.min_spare_servers` / `pm.max_spare_servers` | Contrôle les processus "standby" prêts à servir                  |

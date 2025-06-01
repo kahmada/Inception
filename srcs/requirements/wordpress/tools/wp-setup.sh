@@ -7,7 +7,7 @@ mkdir -p $HTML_FOLDER
 
 # Cette ligne modifie la configuration de PHP-FPM :
 
-#Elle remplace listen = /run/php/php7.4-fpm.sock par listen = 9000
+#Elle remplace listen = /run/php/php7.4-fpm.sock par listen = 9000 puisque il ont dit que la conextion est tcp et c est pas via socket
 
 #Le fichier modifié est : /etc/php/7.4/fpm/pool.d/www.conf
 sed -i "s|listen = /run/php/php7.4-fpm.sock|listen = 9000|" /etc/php/7.4/fpm/pool.d/www.conf
