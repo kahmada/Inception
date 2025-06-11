@@ -50,38 +50,7 @@ services:
     depends_on:
       - mariadb                     # WordPress démarre seulement après mariadb
 
-  adminer:
-    build: ./requirements/bonus/adminer  # Dockerfile pour Adminer (interface DB)
-    container_name: adminer               # Nom du conteneur
-    restart: always                      # Redémarrage automatique
-    ports:
-      - "8080:8080"                     # Accès Adminer via http://localhost:8080
-    networks:
-      - inception_network   us les servic            # Réseau commun
-    depends_on:
-      - mariadb                        # Démarre après mariadb
-
-  static_site:
-    build: ./requirements/bonus/static_site  # Dockerfile pour un site statique
-    container_name: static_site                # Nom du conteneur
-    ports:
-      - "8081:80"                             # Expose port 80 vers 8081 local
-    restart: always                          # Redémarrage automatique
-    networks:
-      - inception_network                    # Réseau commun
-
-  redis:
-    container_name: redis
-    build:
-      context: ./requirements/bonus/redis    # Dockerfile Redis
-    depends_on:
-      - wordpress                            # Démarre après wordpress
-    env_file:
-      - .env                               # Variables d'environnement
-    networks:
-      - inception_network                   # Réseau commun
-    restart: always                        # Redémarrage automatique
-
+  
 volumes:
   data_vol:
     driver: local

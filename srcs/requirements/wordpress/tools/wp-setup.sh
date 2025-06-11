@@ -25,31 +25,32 @@ mv wp-cli.phar /usr/local/bin/wp
 
 # Vérifier si WordPress est déjà configuré et passer à l'étape suivante si oui
 if [ ! -f /var/www/html/wp-config.php ]; then
-    wp core download --allow-root
-    #Crée le fichier wp-config.php avec :Nom de la base Utilisateur  Mot de passe  et Hôte (adresse IP ou nom du conteneur MariaDB)
-    wp config create --dbname=$WORDPRESS_DB_NAME \
-                     --dbuser=$WORDPRESS_DB_USER \
-                     --dbpass=$WORDPRESS_DB_PASSWORD \
-                     --dbhost=$WORDPRESS_DB_HOST \
-                     --allow-root
-    #nstalle WordPress avec : Adresse du site Titre Admin + mot de passe Email admin   On ne veut pas envoyer de mail (--skip-email)
-    wp core install --url=$DOMAIN_NAME \
-                    --title="$WP_TITLE" \
-                    --admin_user=$WP_ADMIN \
-                    --admin_email=$WP_ADMIN_EMAIL \
-                    --admin_password=$WP_ADMIN_PASSWORD \
-                    --skip-email \
-                    --allow-root
-    #Crée un utilisateur supplémentaire avec le rôle d’auteur.
-    wp user create $WP_USER $WP_EMAIL --role=author --user_pass=$WORDPRESS_DB_PASSWORD --allow-root
-else
-    echo "WordPress is already configured. Skipping installation."
-fi
+        wp core download --allow-root --path=/var/www/html
 
+        wp config create --dbname=$WORDPRESS_DB_NAME \
+                        --dbuser=$WORDPRESS_DB_USER \
+                        --dbpass=$WORDPRESS_DB_PASSWORD \
+                        --dbhost=$WORDPRESS_DB_HOST \
+                        --allow-root --path=/var/www/html
+
+        wp core install --url=$DOMAIN_NAME \
+                        --title="$WP_TITLE" \
+                        --admin_user=$WP_ADMIN \
+                        --admin_email=$WP_ADMIN_EMAIL \
+                        --admin_password=$WP_ADMIN_PASSWORD \
+                        --skip-email \
+                        --allow-root --path=/var/www/html
+
+        wp user create $WP_USER $WP_EMAIL --role=author \
+                        --user_pass=$WORDPRESS_DB_PASSWORD \
+                        --allow-root --path=/var/www/html
+    
+fi
+chown -R www-data:www-data /var/www/html
+echo "WordPress is already configured. Skipping installation."
 # Lancer PHP-FPM pour PHP 7.4 ou la version correspondante
 #➡️ Cette commande exécute le processus principal passé par Docker (c’est le CMD ["php-fpm7.4", "-F"]).
 exec $@
-
 
 #Ce script :
 #Configure PHP-FPM pour écouter sur le port 9000 (TCP),

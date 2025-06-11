@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# Create directory for SSL certificates
-mkdir -p /etc/nginx/ssl
+SSL_DIR="/etc/nginx/ssl"
+mkdir -p "$SSL_DIR"
 
-# Generate self-signed SSL certificate
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/nginx.key \
-    -out /etc/nginx/ssl/nginx.crt \
-    -subj "/C=FR/ST=IDF/L=Paris/O=42/CN=login.42.fr"
+    -keyout "$SSL_DIR/nginx.key" \
+    -out "$SSL_DIR/nginx.crt" \
+    -subj "/C=MA/L=Khouribga/O=42/CN=$DOMAIN_NAME"
 
-# Ensure proper permissions
-chmod 600 /etc/nginx/ssl/nginx.key
+chmod 600 "$SSL_DIR/nginx.key"
