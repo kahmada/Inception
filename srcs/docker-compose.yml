@@ -1,56 +1,106 @@
+version: '3.9'
+
 services:
   mariadb:
     build:
-      context: ./requirements/mariadb   # Dossier contenant le Dockerfile pour MariaDB
-      dockerfile: Dockerfile            # Nom du Dockerfile (optionnel si c'est "Dockerfile")
-    image: mariadb:kahmada              # Nom/tag de l'image construite
-    container_name: mariadb             # Nom du conteneur Docker
-    hostname: mariadb                   # Nom d'hôte interne au conteneur
-    restart: always                    # Redémarre automatiquement le conteneur s'il plante
-    env_file:
-      - .env                           # Chargement des variables d'environnement depuis ce fichier
-    volumes:
-      - data_vol:/var/lib/mysql        # Volume Docker persistant pour les données MariaDB
-    networks:
-      - inception_network              # Connexion au réseau Docker "inception_network"
-
-  nginx:
-    build:
-      context: ./requirements/nginx/   # Dockerfile pour Nginx
+      context: ./requirements/mariadb
       dockerfile: Dockerfile
-    image: nginx:kahmada               # Image Nginx personnalisée
-    container_name: nginx              # Nom du conteneur
-    hostname: nginx                   # Nom d'hôte dans le conteneur
-    restart: always                   # Redémarrage automatique
-    depends_on:
-      - wordpress                    # Démarre nginx seulement après wordpress
-    ports:
-      - 443:443                      # Expose le port 443 (HTTPS) du conteneur vers l'hôte
+    image: mariadb:kahmada
+    container_name: mariadb
+    hostname: mariadb
+    restart: always
     env_file:
-      - .env                        # Variables d'environnement
+      - .env
     volumes:
-      - wordpress_vol:/var/www/html  # Volume partagé avec WordPress (fichiers web)
+      - data_vol:/var/lib/mysql
     networks:
-      - inception_network            # Réseau commun à tous les  vices
+      - inception_network
 
   wordpress:
     build:
-      context: ./requirements/wordpress/  # Dockerfile WordPress 
+      context: ./requirements/wordpress
       dockerfile: Dockerfile
-    image: wordpress:kahmada           # Image WordPress personn sée
-    container_name: wordpress          # Nom du conteneur
-    hostname: wordpress                # Nom d'hôte interne
-    restart: always                   # Redémarrage automatique
-    env_file:
-      - .env                        # Variables d'environnement
-    volumes:
-      - wordpress_vol:/var/www/html  # Volume pour fichiers WordPress partagé avec nginx
-    networks:
-      - inception_network            # Réseau commun
+    image: wordpress:kahmada
+    container_name: wordpress
+    hostname: wordpress
+    restart: always
     depends_on:
-      - mariadb                     # WordPress démarre seulement après mariadb
+      - mariadb
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception_network
 
+  nginx:
+    build:
+      context: ./requirements/nginx/
+      dockerfile: Dockerfile
+    image: nginx:kahmada
+    container_name: nginx
+    hostname: nginx
+    restart: always
+    depends_on:
+      - wordpress
+    ports:
+      - 443:443
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception_network
+
+  adminer:
+    build:
+      context: ./requirements/bonus/adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - inception_network
+    depends_on:
+      - mariadb
+
+  static_site:
+    build:
+      context: ./requirements/bonus/static_site
+    container_name: static_site
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - inception_network
   
+  cadvisor:
+    build:
+      context: ./requirements/bonus/cadvisor
+    container_name: cadvisor
+    ports:
+      - "8082:8080"
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:ro"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    restart: always
+
+  ftp:
+    build:
+      context: ./requirements/bonus/ftp
+    container_name: ftp
+    restart: always
+    ports:
+      - "21:21"
+      - "30000-30100:30000-30100"
+    networks:
+      - inception_network
+    volumes:
+      - wordpress_vol:/var/www/html
+
+
 volumes:
   data_vol:
     driver: local
@@ -58,14 +108,14 @@ volumes:
       type: none
       device: /Users/kahmada/Desktop/db
       o: bind
-  wordpress_vol:     # Volume persistant partagé entre WordPress et Nginx pour les fichiers web
+  wordpress_vol:
     driver: local
     driver_opts:
       type: none
       device: /Users/kahmada/Desktop/wp
       o: bind
+
 networks:
   inception_network:
-    name: "inception_network"  # Nom explicite du réseau Docker
-    driver: bridge             # Type de réseau Docker, réseau bridge privé entre conteneurs
-
+    name: inception_network
+    driver: bridge
