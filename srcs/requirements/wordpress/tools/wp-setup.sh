@@ -38,9 +38,11 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         wp user create $WP_USER $WP_EMAIL --role=author \
                         --user_pass=$WORDPRESS_DB_PASSWORD \
                         --allow-root --path=/var/www/html
+
+     
     
 fi
-chown -R www-data:www-data /var/www/html
+chown -R www-data:www-data /var/www/html # kan3tiw l nginx permessions imodifier f worpress
 echo "WordPress is already configured. Skipping installation."
 
 exec $@

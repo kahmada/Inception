@@ -108,6 +108,7 @@ volumes:
       type: none
       device: /Users/kahmada/Desktop/db
       o: bind
+  
   wordpress_vol:
     driver: local
     driver_opts:
