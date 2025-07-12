@@ -17,4 +17,3 @@ EXPOSE 80
 
 # Lance nginx en mode foreground
 CMD ["nginx", "-g", "daemon off;"]
- 
