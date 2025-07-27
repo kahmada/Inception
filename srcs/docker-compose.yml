@@ -106,14 +106,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/kahmada/Desktop/db
+      device: /home/kahmada/data/db
       o: bind
-  
   wordpress_vol:
     driver: local
     driver_opts:
       type: none
-      device: /Users/kahmada/Desktop/wp
+      device: /home/kahmada/data/wp
       o: bind
 
 networks:

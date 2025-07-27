@@ -15,4 +15,3 @@ ENTRYPOINT ["./tmp/wp-setup.sh"]
 
 
 CMD ["php-fpm7.4", "-F"]
-        

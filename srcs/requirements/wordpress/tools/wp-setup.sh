@@ -42,7 +42,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
      
     
 fi
-chown -R www-data:www-data /var/www/html # kan3tiw l nginx permessions imodifier f worpress  
+chown -R www-data:www-data /var/www/html
 echo "WordPress is already configured. Skipping installation."
 
 exec $@

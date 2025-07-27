@@ -1,0 +1,69 @@
+Dans le cadre de mon cursus à 42, j’ai réalisé un projet appelé Inception, dont l’objectif était de bâtir une véritable infrastructure web à partir de zéro. 
+Pour cela, je devais utiliser Docker, une technologie qui permet de faire tourner des applications dans des environnements isolés appelés conteneurs.
+
+Plutôt que d’utiliser des services déjà prêts comme ceux qu'on trouve sur le cloud, j’ai dû construire chaque service moi-même, avec ses propres règles,
+ sa propre configuration, et sa propre image Docker, créée à partir d’un fichier appelé Dockerfile.
+
+🔧 Mise en place des briques de l’infrastructure
+J’ai commencé par définir trois services principaux :
+
+MariaDB, un système de gestion de base de données.
+
+WordPress, un outil de création de sites web.
+
+Nginx, un serveur web qui sert de point d’entrée sécurisé pour les utilisateurs.
+
+Pour que ces services communiquent entre eux, je les ai tous réunis dans un fichier unique appelé docker-compose.yml, qui me permettait de tout lancer en une seule commande. 
+Chaque service tournait dans un conteneur séparé, mais ils partageaient un réseau Docker privé, leur permettant de dialoguer en toute sécurité.
+
+🗃️ Le cœur des données : MariaDB
+Le premier service que j’ai mis en place était MariaDB. C’est là que sont stockées toutes les données du site WordPress : les articles, les utilisateurs, les réglages, etc.
+
+J’ai utilisé une image de base comme Debian pour créer une image personnalisée, dans laquelle j’ai installé MariaDB. Ensuite, j’ai écrit un script SQL qui s’exécutait automatiquement 
+au démarrage : il créait une base de données nommée wordpress, un utilisateur dédié, et un mot de passe sécurisé.
+
+J’ai aussi utilisé un volume Docker pour que les données soient conservées même si je détruisais ou redémarrais le conteneur. Ce volume représente un espace de stockage persistant.
+
+🌍 Le moteur du site : WordPress + PHP-FPM
+Ensuite, j’ai mis en place WordPress. Ce CMS (Content Management System) est une plateforme très utilisée pour créer des sites web sans coder.
+
+WordPress est écrit en PHP, un langage qui doit être interprété côté serveur. Mais Nginx, que j’allais utiliser plus tard, ne sait pas exécuter PHP tout seul. C’est pourquoi j’ai 
+utilisé PHP-FPM (FastCGI Process Manager). Il s’agit d’un moteur d’exécution PHP, qui écoute sur un port ou un socket, et attend qu’un autre service (comme Nginx) lui demande d’exécuter un fichier .php.
+
+Dans mon conteneur WordPress, j’ai installé PHP avec les extensions nécessaires, et configuré PHP-FPM. J’ai aussi utilisé un script automatisé (avec wp-cli par exemple) pour télécharger WordPress,
+ le configurer (admin, mot de passe, nom du site…), et le connecter à la base MariaDB via des variables d’environnement (comme WORDPRESS_DB_HOST, WORDPRESS_DB_USER, etc.).
+
+Enfin, j’ai attaché un volume à ce conteneur pour sauvegarder tous les fichiers du site : images, thèmes, plugins…
+
+🔐 L’accès sécurisé : Nginx + SSL
+Le dernier service à mettre en place était Nginx. Ce serveur web est rapide et léger. Je l’ai configuré pour agir comme un reverse proxy : il reçoit les requêtes des utilisateurs 
+(par exemple https://monsite.com) et les redirige vers le service WordPress via PHP-FPM.
+
+Pour renforcer la sécurité, j’ai mis en place un certificat SSL généré avec OpenSSL. Il s’agit d’un certificat auto-signé, ce qui signifie que je l’ai fabriqué moi-même. 
+Il permet de chiffrer les communications entre l’utilisateur et le serveur, en passant par le protocole HTTPS.
+
+Grâce à cela, quand un utilisateur se connecte à mon site, il accède à Nginx en HTTPS, qui transmet les requêtes à PHP-FPM pour exécuter le site WordPress, lequel se connecte à MariaDB pour aller chercher les données.
+
+🔄 Orchestration et automatisation
+Tous ces services sont orchestrés via Docker Compose, ce qui me permet de tout lancer, configurer et relancer automatiquement.
+Chaque conteneur est indépendant, mais ils sont conçus pour coopérer. On appelle cela une architecture microservices.
+
+J’ai aussi fait attention à la sécurité : les mots de passe sont passés via des variables d’environnement, les ports sont limités à ceux nécessaires (443 pour HTTPS), et les données sont protégées dans des volumes.
+
+🧠 Conclusion
+Ce projet m’a appris à construire une infrastructure web réelle, avec des concepts professionnels comme les conteneurs, les reverse proxies, les certificats SSL, et la persistance des données.
+J’ai non seulement fait fonctionner un site WordPress, mais je l’ai aussi rendu isolé, sécurisé, automatisé et modulaire, comme cela se fait dans les environnements de production.
+
+
+
+
+
+
+| Clé                                             | Description                                                      |
+| ----------------------------------------------- | ---------------------------------------------------------------- |
+| `user` / `group`                                | Utilisateur UNIX qui exécute PHP                                 |
+| `listen`                                        | Port ou socket utilisé pour la communication avec le serveur web |
+| `pm`                                            | Mode de gestion dynamique des processus                          |
+| `pm.max_children`                               | Capacité maximale du pool PHP                                    |
+| `pm.start_servers`                              | Combien de processus sont lancés au début                        |
+| `pm.min_spare_servers` / `pm.max_spare_servers` | Contrôle les processus "standby" prêts à servir                  |
