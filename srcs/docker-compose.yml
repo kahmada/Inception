@@ -52,18 +52,6 @@ services:
     networks:
       - inception_network
 
-  adminer:
-    build:
-      context: ./requirements/bonus/adminer
-    container_name: adminer
-    restart: always
-    ports:
-      - "8080:80"
-    networks:
-      - inception_network
-    depends_on:
-      - mariadb
-
   static_site:
     build:
       context: ./requirements/bonus/static_site
@@ -86,20 +74,6 @@ services:
       - "/sys:/sys:ro"
       - "/var/lib/docker/:/var/lib/docker:ro"
     restart: always
-
-  ftp:
-    build:
-      context: ./requirements/bonus/ftp
-    container_name: ftp
-    restart: always
-    ports:
-      - "21:21"
-      - "30000-30100:30000-30100"
-    networks:
-      - inception_network
-    volumes:
-      - wordpress_vol:/var/www/html
-
 
 volumes:
   data_vol:
