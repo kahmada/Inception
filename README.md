@@ -54,25 +54,6 @@
 
 
   <div class="section">
-    <h2>📁 Project Structure</h2>
-    <div class="folder-structure">
-inception/
-├── srcs/
-│   ├── docker-compose.yml
-│   ├── requirements/
-│   │   ├── nginx/
-│   │   │   ├── Dockerfile
-│   │   │   └── default.conf
-│   │   ├── wordpress/
-│   │   │   ├── Dockerfile
-│   │   │   └── setup.sh
-│   │   └── mariadb/
-│   │       ├── Dockerfile
-│   │       └── init.sql
-│   └── .env
-├── README.md
-└── Makefile
-    </div>
   </div>
 
   <div class="section">
