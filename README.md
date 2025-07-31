@@ -50,6 +50,8 @@
       </tbody>
     </table>
   </div>
+  <img src="d1.png" alt="Description" />
+
 
   <div class="section">
     <h2>📁 Project Structure</h2>
