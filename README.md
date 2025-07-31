@@ -15,6 +15,7 @@
       The <strong>Inception</strong> project at 42 School introduces students to <span class="highlight">Docker</span> and system administration. The goal is to build a secure and scalable infrastructure with multiple services running in isolated Docker containers via <code>docker-compose</code>.
     </p>
   </div>
+  <img src="d.jpeg" alt="Description" />
 
   <div class="section">
     <h2>🧱 Architecture</h2>
